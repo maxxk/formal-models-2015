@@ -1,0 +1,13 @@
+# Site settings
+title: Формальные модели вычислений
+email: maxim.krivchikov@gmail.com
+description: "
+М.А. Кривчиков, 2015 г.
+"
+baseurl: "" # the subpath of your site, e.g. /blog/
+url: "http://maxxk.me" # the base hostname & protocol for your site
+twitter_username:
+github_username:  maxxk
+
+# Build settings
+markdown: kramdown
