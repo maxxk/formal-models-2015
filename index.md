@@ -2,6 +2,11 @@
 layout: default
 ---
 {% include about.md %}
+
+# Материалы к занятиям
+
+**6.10.2015 Вводное занятие [(презентация — pdf)](pdf/01-Introduction.pdf)**
+
 <!--<div class="home">
 
   <h1 class="page-heading">Материалы к занятиям:</h1>
