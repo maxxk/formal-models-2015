@@ -14,6 +14,8 @@ layout: default
 
 13.10.2015 Фундаментальные модели вычислений [(презентация — pdf)](pdf/02-Models.pdf)
 
+27.10.2015 Формальные системы [(презентация — pdf)](pdf/03-Problem.pdf)
+
 <!--<div class="home">
 
   <h1 class="page-heading">Материалы к занятиям:</h1>
