@@ -13,6 +13,8 @@ layout: default
 
 3.11.2015 Model checking [(презентация — pdf)](pdf/04-Model-Checking.pdf)
 
+10.11.2015 λ-исчисление с простыми типами [(презентация - html)](presentations/05-SimplyTypedLambdaCalculus.html)
+
 <!--<div class="home">
 
   <h1 class="page-heading">Материалы к занятиям:</h1>
