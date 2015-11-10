@@ -1,1 +1,0 @@
-/Users/maxxk/Documents/Students/2015-16-Presentations-Autumn/reveal.js
