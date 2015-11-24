@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title></title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="reveal.js/css/reveal.css"/>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="reveal.js/css/theme/maxxk.css" id="theme">
+  <link rel="stylesheet" href="additional.css"/>
+  <link rel="stylesheet" href="reveal.js/css/highlight-github.css"/>
+  <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+  <script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = 'reveal.js/css/print/pdf.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+  </script>
+  <!--[if lt IE 9]>
+  <script src="reveal.js/lib/js/html5shiv.js"></script>
+  <![endif]-->
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section id="математические-модели-вычислений" class="slide level1">
+<h1>Математические модели вычислений</h1>
+<h3 id="исчисление-конструкций">Исчисление конструкций</h3>
+<h3 id="типы-произведений-и-сумм">Типы произведений и сумм</h3>
+<h3 id="зависимые-суммы-квантификация-существования">Зависимые суммы (квантификация существования)</h3>
+<h3 id="универсумы-и-парадокс-бурали-форти-для-исчисления-конструкций">Универсумы и парадокс Бурали-Форти для исчисления конструкций</h3>
+<h3 id="реализации-исчисления-конструкций-coq-agda-idris">Реализации исчисления конструкций (Coq, Agda, Idris)</h3>
+<p><script type="text/javascript">
+<!--
+h='&#x67;&#x6d;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#x6d;';a='&#64;';n='&#x6d;&#x61;&#120;&#x69;&#x6d;&#46;&#x6b;&#114;&#x69;&#118;&#x63;&#104;&#x69;&#x6b;&#x6f;&#118;';e=n+a+h;
+document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\/'+'a'+'>');
+// -->
+</script><noscript>&#x6d;&#x61;&#120;&#x69;&#x6d;&#46;&#x6b;&#114;&#x69;&#118;&#x63;&#104;&#x69;&#x6b;&#x6f;&#118;&#32;&#x61;&#116;&#32;&#x67;&#x6d;&#x61;&#x69;&#108;&#32;&#100;&#x6f;&#116;&#32;&#x63;&#x6f;&#x6d;</noscript></p>
+<p>Материалы курса: <a href="https://maxxk.github.io/formal-models-2015/" class="uri">https://maxxk.github.io/formal-models-2015/</a></p>
+</section>
+<section id="объявление" class="slide level1">
+<h1>Объявление</h1>
+<p>Нужно определиться со временем (и аудиторией) зачётов и подать их в учебную часть.<br />
+Я надеюсь, мы справимся за 2 раза (а то и за один), но нужно поставить все 3.</p>
+<p>Слушатели не из 510 группы, которые хотят сдать спецкурс:</p>
+<ol type="1">
+<li>Нужно уточнить в своей учебной части о форме вашей сдачи этого спецкурса (Математические модели вычислений, 0.5 г., зачёт, обязательная дисциплина кафедры вычислительной математики), желательно заранее, чтобы, если от нашей кафедры нужно будет что-то дополнительно подать, мы бы успели это сделать.</li>
+<li>Можно приходить сдавать на зачёты, можно договориться провести экзамен в какой-то день — пишите.</li>
+</ol>
+</section>
+<section id="исчисление-конструкций-кокана" class="slide level1">
+<h1>Исчисление Конструкций Кокана</h1>
+<h2 id="t.-coquand-g.-huet.-the-calculus-of-constructions.-1988.">T. Coquand, G. Huet. The calculus of constructions. 1988.</h2>
+<p>Контексты — список типов переменных (записывается как <span class="math inline">\(x : A, y : B\)</span>, обозначается греческими буквами <span class="math inline">\(Γ\)</span>)<br />
+Термы:</p>
+<ul>
+<li class="fragment">типы — $ Γ ⊦ \mathbf{Type} : \mathbf{Type}^* $</li>
+<li class="fragment">переменные (<span class="math inline">\(x\)</span>) — $ \dfrac{Γ ⊦ A : \mathbf{Type}}{Γ, x : A ⊦ x : A } $</li>
+<li class="fragment">зависимые произведения (<span class="math inline">\(Π(x : A).B(x),\)</span> формация) — $ \dfrac{Γ ⊦ A : \mathbf{Type} \qquad Γ, x : A ⊦ B(x) : \mathbf{Type}}{Γ ⊦ Π(x : A).B(x) : \mathbf{Type}} $</li>
+<li class="fragment">абстракция (<span class="math inline">\(λ(x : A).b,\)</span> введение) — $ \dfrac{Γ ⊦ A : \mathbf{Type}, \qquad Γ, x : A ⊦ b : B(x)}{Γ ⊦ λ(x : A).b : Π(x : A).B(x)}$</li>
+<li class="fragment">приложение (<span class="math inline">\(M · N,\)</span> удаление) — $ \dfrac{Γ ⊦ M : Π(x : A).B \qquad Γ ⊦ N : A}{Γ ⊦ M · N : B[x := N]}$</li>
+<li class="fragment">β-редукция — $ (λ(x : A).b) · z ⟶_β b[x := z] $ <!--_ --></li>
+<li class="fragment">преобразование типов — $\dfrac{Γ ⊦ M : A \qquad A ⟶^*_β B, \qquad Γ ⊦ B : \mathbf{Type} }{Γ ⊦ M : B} $<!--* --></li>
+</ul>
+</section>
+<section id="тип-суммы-или" class="slide level1">
+<h1>Тип суммы («или»)</h1>
+<p>Элемент типа <span class="math inline">\(A+B\)</span> — это или элемент типа <span class="math inline">\(A\)</span> или элемент типа <span class="math inline">\(B\)</span>.</p>
+<dl>
+<dt class="fragment">формация — <span class="math inline">\(A + B\)</span></dt>
+<dd class="fragment">$ \dfrac{Γ ⊦ A, B : \mathbf{Type}}{Γ ⊦ A + B : \mathbf{Type}} $
+</dd>
+<dt class="fragment">введение — <span class="math inline">\(\mathrm{inl}(a)\)</span>, <span class="math inline">\(\mathrm{inr}(b)\)</span></dt>
+<dd class="fragment">$ \dfrac{a : A}{\mathrm{inl_B}(a) : A + B} $
+</dd>
+<dd class="fragment">$ \dfrac{b : B}{\mathrm{inr_A}(b) : A + B} $
+</dd>
+<dt class="fragment">удаление — <span class="math inline">\(\mathrm{case&#39;}\)</span></dt>
+<dd class="fragment"><span class="math inline">\(\dfrac{C : \mathbf{Type}\qquad f_a : ΠA.C \qquad f_b : ΠB.C \qquad x : A + B} {\mathrm{case&#39;}(C, f_a, f_b, x) : C}\)</span>
+</dd>
+<dt class="fragment">редукция</dt>
+<dd class="fragment"><span class="math inline">\(\mathrm{case&#39;}(C, f_a, f_b, \mathrm{inl_B} \, a) ⟶ f_a · a\)</span>
+</dd>
+<dd class="fragment"><span class="math inline">\(\mathrm{case&#39;}(C, f_a, f_b, \mathrm{inr_A} \, b) ⟶ f_b ·a\)</span>
+</dd>
+<dt class="fragment">зависимое удаление — <span class="math inline">\(\mathrm{case}\)</span></dt>
+<dd class="fragment"><span class="math inline">\(\dfrac{C : Π(t : A+B).\mathbf{Type}\quad f_a : Π(a : A).C · (\mathrm{inl_B}(a)) \quad f_b : Π(b : B).C · (\mathrm{inr_A}(B)) \quad x : A + B} {\mathrm{case}(C, f_a, f_b, x) : C · x}\)</span>
+</dd>
+</dl>
+</section>
+<section id="тип-произведения-и" class="slide level1">
+<h1>Тип произведения («и»)</h1>
+<p>Элемент типа <span class="math inline">\(A × B\)</span> — это пара из элемента типа <span class="math inline">\(A\)</span> и элемента типа <span class="math inline">\(B\)</span></p>
+<dl>
+<dt class="fragment">формация — <span class="math inline">\(A × B\)</span></dt>
+<dd class="fragment">$ \dfrac{Γ ⊦ A, B : \mathbf{Type}}{Γ ⊦ A × B : \mathbf{Type}} $
+</dd>
+<dt class="fragment">введение — <span class="math inline">\((a, b)\)</span></dt>
+<dd class="fragment">$\dfrac{Γ ⊦ A×B : \mathbf{Type}\qquad Γ ⊦ a : A, \qquad Γ ⊦ b : B}{Γ ⊦ (a, b) : A × B} $
+</dd>
+<dt class="fragment">удаление — <span class="math inline">\(π_1(x), π_2(x)\)</span></dt>
+<dd class="fragment"><span class="math inline">\(\dfrac{t : A × B}{π_1(t) : A}\qquad\)</span> <span class="math inline">\(\dfrac{t : A × B}{π_2(t) : B}\)</span>
+</dd>
+<dt class="fragment">редукция</dt>
+<dd class="fragment"><span class="math inline">\(π_1((a, b)) ⟶ a\)</span>
+</dd>
+<dd class="fragment"><span class="math inline">\(π_2((a, b)) ⟶ b\)</span>
+</dd>
+</dl>
+</section>
+<section id="тип-зависимой-суммы-существует" class="slide level1">
+<h1>Тип зависимой суммы («существует»)</h1>
+<p>Luo, 1989. Extended Calculus of Constructions<br />
+Элемент типа <span class="math inline">\(Σ(x : A).B(x)\)</span> — это пара из элемента <span class="math inline">\(a\)</span> типа <span class="math inline">\(A\)</span> и элемента <span class="math inline">\(b_a\)</span> типа <span class="math inline">\(B(a)\)</span>.</p>
+<dl>
+<dt class="fragment">формация — <span class="math inline">\(Σ(x : A).B(x)\)</span></dt>
+<dd class="fragment"><span class="math inline">\(\dfrac{A : \mathbf{Type}, \qquad Γ, x: A ⊦ B : \mathbf{Type}}{Γ ⊦ Σ(x: A).B : \mathbf{Type}}\)</span>
+</dd>
+<dt class="fragment">введение — <span class="math inline">\((a, b)_{Σ(x: A).B}\)</span> <!--_ --></dt>
+<dd class="fragment"><span class="math inline">\(\dfrac{a : A, \qquad b : B[x := a]}{(a, b)_{Σ(x : A).B} : Σ(x : A).B}\)</span> <!--_ -->
+</dd>
+<dt class="fragment">удаление — <span class="math inline">\(\mathrm{split}\)</span></dt>
+<dd class="fragment">можно ввести операторы проекции <span class="math inline">\(π_{1,2}\)</span> как для обычного произведения
+</dd>
+<dd class="fragment">зависимое удаление:
+</dd>
+<dd class="fragment"><span class="math inline">\(\dfrac{C : Π(Σ(x : A).B).\mathbf{Type} \qquad r : Π(a : A).(b : B(a)).C·(a, b)_{ΣA.B} \qquad x : ΣA.B} {\mathrm{split}(C, r, x) : C · x}\)</span> <!--_ -->
+</dd>
+<dt class="fragment">редукция</dt>
+<dd class="fragment"><span class="math inline">\(\mathrm{split}(C, r, (a, b)_{ΣA.B}) ⟶ r · a · b\)</span> <!--_ -->
+</dd>
+</dl>
+<div class="fragment">
+Тип произведения — это частный случай типа зависимой суммы, когда <span class="math inline">\(B\)</span> не зависит от <span class="math inline">\(x\)</span>. Точно так же, как и тип функции/«стрелки» <span class="math inline">\(A → B\)</span> — это частный случай зависимого произведения (<span class="math inline">\(Π(x : A).B\)</span>).
+</div>
+</section>
+<section id="соответствие-карри-говарда" class="slide level1">
+<h1>Соответствие Карри-Говарда</h1>
+<h2 id="для-исчисления-конструкций">для исчисления конструкций</h2>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Логика</th>
+<th style="text-align: center;">Исчисление конструкций</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">«и» A ∧ B</td>
+<td style="text-align: center;">ΣA.B</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">«или» A ∨ B</td>
+<td style="text-align: center;">A + B</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">A → B</td>
+<td style="text-align: center;">ΠA.B</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">«не» A</td>
+<td style="text-align: center;">#0 или ΠC.A.C</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">∀a.P(a)</td>
+<td style="text-align: center;">Π(a : A).P(a)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">∃a.P(a)</td>
+<td style="text-align: center;">Σ(a : A).P(a)</td>
+</tr>
+</tbody>
+</table>
+<p>«Конструктивность» логики — все доказательства представляют собой эффективные вычисления, все правила вывода тоже возвращают вычисление. Например, оператор <span class="math inline">\(π_1\)</span> для зависимой суммы/квантора существования вернёт тот самый <span class="math inline">\(x\)</span>, для которого верно <span class="math inline">\(P(x)\)</span>.</p>
+</section>
+<section id="теории-типов-и-теории-подтипов" class="slide level1">
+<h1>Теории типов и теории подтипов</h1>
+<p>Разновидности исчисления конструкций, правила вывода которых задаются с помощью суждения типизации «x : A» называют теориями типов.</p>
+<p>Есть понятие теорий подтипов, в которых вводится понятие отношения вложения типов <span class="math inline">\(X &lt;: Y\)</span> и правило включения <span class="math inline">\(\dfrac{Γ ⊦ x : X, \qquad X &lt;: Y}{Γ ⊦ x : Y}\)</span>, но у них есть сложности с нормализацией.</p>
+</section>
+<section id="универсумы" class="slide level1">
+<h1>Универсумы</h1>
+<h2 id="парадокс-бурали-форти-в-исчислении-конструкций">Парадокс Бурали-Форти в исчислении конструкций</h2>
+<p><span class="math inline">\(\mathbf{Type}\)</span> — универсум («тип всех типов»), в общем случаи такие конструкции опасны, т.к. позволяют определить парадоксы.</p>
+<p>Самое опасное — это рекурсивное включение универсумов, которое мы дали в первом правиле редукции сегодняшней лекции: <span class="math inline">\(\mathbf{Type} : \mathbf{Type}\)</span>. Оно делает противоречивым даже System F<span class="math inline">\({}_ω\)</span> — полиморфное λ-исчисление с конструкторами типов.</p>
+</section>
+<section id="парадокс" class="slide level1">
+<h1>Парадокс</h1>
+Hurkens, 1995. A simplification of Girard's paradox.<br />
+
+<div style="zoom: 1.1">
+<pre><code>2^S ≡ Pow ≡ λ (S : Type). Π S . Type
+Univ ≡ Π (X : Type). (Π (Π 2^{2^X} . X). 2^{2^X})
+PPUniv ≡ 2^{2^Univ}
+τ ≡ λ (t : PPUniv) (X : Type) (f : Π 2^{2^X} . X ) (p : 2^X ) .
+  t · (λ (x : Univ) . (p (f ((x X) f))))
+σ ≡ λ (s : Univ) . ((s · Univ) (λ (t : PPUniv) . τ · t))
+Δ ≡ λ (y : Univ) . (Π (Π (p : (Pow Univ)). (σ y p) (p (τ (σ y)))) #0)
+Ω ≡  (τ · (λ (p : 2^Univ)) · (Π (x : Univ). (σ · x · p) · (p · x)))
+False ≡ (λ (O :  (Π (p : 2^Univ) (Π (x : Univ) . (σ · x · p) · (p · x)) (p · Ω) )).
+  (((O Δ) (λ (x : Univ) (t : σ x Δ) (u : (Π (p : (Pow Univ)). (σ y p) (p (τ (σ y))))).
+      (u · (λ (y : Univ)) (p (τ (σ y)))))))
+  · (λ (p : 2^Univ) . (O (λ (y : Univ) . p (τ (σ y)))))
+  · (λ (p : 2^Univ). (v : (Π (x : Univ). (σ x p) (p x))).
+        (v · Ω) · (λ (x : Univ) . (v · (τ (σ x))))))
+False : #0</code></pre>
+</div>
+</section>
+<section id="уровни-универсумов" class="slide level1">
+<h1>Уровни универсумов</h1>
+<p>Для того, чтобы избежать таких парадоксов, рассматривают не один универсум <span class="math inline">\(\mathbf{Type} : \mathbf{Type}\)</span>, а их набор <span class="math inline">\(\mathbf{Type}_i\)</span>, где <span class="math inline">\(i\)</span> — какой-то набор индексов с заданным строгим порядком <span class="math inline">\(&lt;\)</span> (обычно используется что-то вроде решётки, чтобы у любой пары индексов был максимальный <span class="math inline">\(\max\)</span>, нестрого больший <span class="math inline">\(i, j ⩽ \max(i,j))\)</span>.</p>
+<p>Тогда правило типизации универсума преобразуется к следующему виду: <span class="math inline">\(\dfrac{i &lt; j}{\mathbf{Type}_i : \mathbf{Type}_j}\)</span>,</p>
+<p>А правила типизации зависимой суммы и произведения — к виду:<br />
+$ \dfrac{Γ ⊦ A : \mathbf{Type}_i \qquad Γ, x : A ⊦ B(x) : \mathbf{Type}_j}{Γ ⊦ Π(x : A).B(x) : \mathbf{Type}_k, [i, j ⩽ k]} $</p>
+<div class="fragment">
+<p>При проверке типов индексы строятся в виде ориентированного графа, рёбра которого помечены <span class="math inline">\(&lt;\)</span> и <span class="math inline">\(⩽\)</span>, а потом, например, алгоритмом Тарьяна, определяется, можно ли получить на основе этого графа требуемый порядок (можно, если нет ориентированного цикла с одним из рёбер, помеченных <span class="math inline">\(&lt;\)</span>)</p>
+</div>
+</section>
+<section id="реализации-исчисления-конструкций" class="slide level1">
+<h1>Реализации исчисления конструкций</h1>
+<h2 id="coq">Coq</h2>
+<p><a href="https://coq.inria.fr/" class="uri">https://coq.inria.fr/</a></p>
+<h2 id="agda">Agda</h2>
+<p><a href="http://wiki.portal.chalmers.se/agda/pmwiki.php" class="uri">http://wiki.portal.chalmers.se/agda/pmwiki.php</a></p>
+<h2 id="idris">Idris</h2>
+<p><a href="http://www.idris-lang.org/" class="uri">http://www.idris-lang.org/</a></p>
+</section>
+<section id="интерактивные-примеры-в-coq" class="slide level1">
+<h1>Интерактивные примеры в Coq</h1>
+<p><a href="http://proofweb.cs.ru.nl/" class="uri">http://proofweb.cs.ru.nl/</a><br />
+Proof Assistant, выбрать Coq, Guest Login</p>
+</section>
+<section id="задачи-со-звёздочкой" class="slide level1">
+<h1>Задачи со звёздочкой</h1>
+<p><strong>Задача 7.1</strong>* Определить <span class="math inline">\(π_{1,2}\)</span> через <span class="math inline">\(\mathrm{split}\)</span>.</p>
+<ul>
+<li>бонусная * — определить <span class="math inline">\(η\)</span>-эквивалентность на зависимых суммах и определить split через <span class="math inline">\(π_{1,2}\)</span></li>
+</ul>
+<p><strong>Задача 7.2</strong>** Реализовать сортировку списка натуральных чисел в Coq.</p>
+<p><strong>Задача 7.3</strong>** Сформулировать одну из «больших» теорем математических курсов (мат. анализ, алгебра и т.п.) в Coq</p>
+<ul>
+<li>бонусные ** — доказать теорему</li>
+</ul>
+</section>
+    </div>
+  </div>
+
+
+  <script src="reveal.js/lib/js/head.min.js"></script>
+  <script src="reveal.js/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: false,         // Display controls in the bottom right corner
+        progress: true,         // Display a presentation progress bar
+        history: true,          // Push each slide change to the browser history
+        fragments: true,
+        center: true,                       // Vertical centering of slides
+        maxScale: 1.5,                  // Bounds for smallest/largest possible content scale
+        slideNumber: "c / t",                // Display the page number of the current slide
+        theme: 'maxxk', // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+        math: {
+          mathjax: 'reveal.js/../MathJax-2.5.3/MathJax.js',
+          config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
+        },
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'reveal.js/plugin/math/math.js', async: true },
+//          { src: 'reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; }, }
+//          { src: 'reveal.js/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+]});
+    </script>
+    </body>
+</html>

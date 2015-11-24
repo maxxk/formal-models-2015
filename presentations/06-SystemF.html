@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title></title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="reveal.js/css/reveal.css"/>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="reveal.js/css/theme/maxxk.css" id="theme">
+  <link rel="stylesheet" href="additional.css"/>
+  <link rel="stylesheet" href="reveal.js/css/highlight-github.css"/>
+  <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+  <script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = 'reveal.js/css/print/pdf.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+  </script>
+  <!--[if lt IE 9]>
+  <script src="reveal.js/lib/js/html5shiv.js"></script>
+  <![endif]-->
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section id="формальные-модели-программ" class="slide level1">
+<h1>Формальные модели программ</h1>
+<h3 id="соответствие-карри-говарда-программа-доказательство-утверждения-интуиционистская-логика">Соответствие Карри-Говарда: программа = доказательство утверждения (интуиционистская логика)</h3>
+<h3 id="основные-свойства-типизированного-λ-исчисления">Основные свойства типизированного <span class="math inline">\(λ\)</span>-исчисления</h3>
+<h3 id="параллельная-редукция">Параллельная редукция</h3>
+<h3 id="двусторонняя-проверка-типов">Двусторонняя проверка типов</h3>
+<h3 id="λ-куб-барендрегта-расширения-типизированного-λ-исчисления.-полиморфное-λ-исчисление-λ-исчисление-с-конструкторами-типов-λ-исчисление-с-зависимыми-типами">λ-куб Барендрегта: расширения типизированного λ-исчисления. Полиморфное λ-исчисление, λ-исчисление с конструкторами типов, λ-исчисление с зависимыми типами</h3>
+<p><script type="text/javascript">
+<!--
+h='&#x67;&#x6d;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#x6d;';a='&#64;';n='&#x6d;&#x61;&#120;&#x69;&#x6d;&#46;&#x6b;&#114;&#x69;&#118;&#x63;&#104;&#x69;&#x6b;&#x6f;&#118;';e=n+a+h;
+document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\/'+'a'+'>');
+// -->
+</script><noscript>&#x6d;&#x61;&#120;&#x69;&#x6d;&#46;&#x6b;&#114;&#x69;&#118;&#x63;&#104;&#x69;&#x6b;&#x6f;&#118;&#32;&#x61;&#116;&#32;&#x67;&#x6d;&#x61;&#x69;&#108;&#32;&#100;&#x6f;&#116;&#32;&#x63;&#x6f;&#x6d;</noscript></p>
+<p>Материалы курса: <a href="https://maxxk.github.io/formal-models-2015/" class="uri">https://maxxk.github.io/formal-models-2015/</a></p>
+</section>
+<section id="свойство-чёрча-россера" class="slide level1">
+<h1>Свойство Чёрча-Россера</h1>
+<p>Takahashi M. Parallel Reductions in λ-Calculus // Information and computation. 1995.</p>
+</section>
+<section id="нормализация" class="slide level1">
+<h1>Нормализация</h1>
+<p><strong>Редекс</strong> — терм удаления, для которого есть правило редукции.<br />
+<strong>Нормальная форма</strong> терма относительно редукции — это такой вид, при котором к нему неприменимы правила редукции.<br />
+<strong>Головная нормальная форма</strong> терма — если в головной позиции (корне дерева) не стоит редекс.</p>
+<p><strong>Нормализация</strong> — свойство формальной системы: если у терма есть нормальная форма, то она единственная.<br />
+<strong>Сильная нормализация</strong> — у всех термов есть единственная нормальная форма (= нет термов, редукция которых не завершается).</p>
+</section>
+<section id="сильная-нормализация-для-просто-типизированного-λ-исчисления" class="slide level1">
+<h1>Сильная нормализация для просто типизированного λ-исчисления</h1>
+<p>Просто типизированное λ-исчисление обладает свойством сильной типизации.<br />
+Normalization by Evaluation (A. Abel, Habilitation thesis, 2013)</p>
+</section>
+<section id="эквивалентность-термов" class="slide level1">
+<h1>Эквивалентность термов</h1>
+<p>Обычно определяется следующим образом: A эквивалентен B, если A и B приводятся β-редукцией к идентичному виду, с точностью до корректных (не меняющих) переименований переменных. На индексах де Брёйна последнее замечание неактуально.</p>
+<h2 id="η-эквивалентность">η-эквивалентность</h2>
+<p>Пусть <span class="math inline">\(f : α → β\)</span>. Тогда <span class="math inline">\(λ (x : α). f · x\)</span> интуитивно эквивалентен исходной <span class="math inline">\(f\)</span>, но по указанному выше определению формально это разные термы.</p>
+<p>η-эквивалентность включает такое понятие и, в случае просто типизированного λ-исчисления, не нарушает разрешимости эквивалентности типов.</p>
+<p><strong>Проверка типов разрешима</strong> — если есть алгоритм, который для любого терма определяет, корректно ли он типизирован.<br />
+<strong>Эквивалентность термов разрешима</strong> — если есть алгоритм, который для любой пары термов определяет, эквивалентны ли они при заданных правилах.</p>
+</section>
+<section id="соответствие-карри-говарда-для-просто-типизированного-λ-исчисления" class="slide level1">
+<h1>Соответствие Карри-Говарда для просто типизированного <span class="math inline">\(λ\)</span>-исчисления</h1>
+<p>Типы — импликативные суждения. Доказательства — термы, имеющие этот вид.<br />
+Если ввести тип ложных высказываний как базовый тип False без правил введения и с правилом удаления ex falso, можно ввести и отрицание — «не α» ≡ α → False.</p>
+</section>
+<section id="двусторонняя-проверка-типов-1" class="slide level1">
+<h1>Двусторонняя проверка типов</h1>
+<p>Алгоритм проверки типов.<br />
+Достаточны аннотации типов у констант и переменных абстракции, остальные — можно вывести.<br />
+Две взаимно-рекурсивные функции — <code>check</code> и <code>infer</code>.<br />
+<code>infer</code> выводит тип терма, <code>check</code> проверяет, что терм имеет заданный тип.<br />
+Опциональные аннотации.</p>
+</section>
+<section id="не-все-утверждения-удобно-представимы-в-λ-исчислении-с-простыми-типами" class="slide level1">
+<h1>Не все утверждения удобно представимы в λ-исчислении с простыми типами</h1>
+<p>В частности, для нумералов Чёрча представимый класс называется «расширенные полиномы» над ℕ:</p>
+<ul>
+<li class="fragment">0, 1, проекции</li>
+<li class="fragment">сложение, умножение</li>
+<li class="fragment">функция <code>ifzero</code>(n, m, p) = <code>if</code> n = 0 <code>then</code> m <code>else</code> p</li>
+</ul>
+<p>В следующий раз мы рассмотрим различные способы расширения набора типов и постараемся убрать разделение между типами и термами.</p>
+</section>
+<section id="расширения-типизированного-λ-исчисления" class="slide level1">
+<h1>Расширения типизированного λ-исчисления</h1>
+</section>
+<section id="λ-куб-барендрегта" class="slide level1">
+<h1>λ-куб Барендрегта</h1>
+<p>Barendregt H.P. Introduction to generalized type systems // J. Funct. Program. 1991. Vol. 1, № 2. P. 125–154.<br />
+<img src="images/lambda-cube.svg" alt="" /></p>
+</section>
+<section id="расширения-типизированного-λ-исчисления-1" class="slide level1">
+<h1>Расширения типизированного λ-исчисления</h1>
+<h2 id="полиморфное-λ-исчисление">полиморфное λ-исчисление</h2>
+<h2 id="λ-исчисление-с-конструкторами-типов">λ-исчисление с конструкторами типов</h2>
+<h2 id="λ-исчисление-с-зависимыми-типами">λ-исчисление с зависимыми типами</h2>
+<p>Б. Пирс. Типы в языках программирования. М.: Лямбда-прес, 2011. Часть V (глава 23), VI.<br />
+Могу порекомендовать дополнительно введение, главы 5-6, 8-12, 20-24, 26 как литературу по значительной части нашего курса.</p>
+</section>
+<section id="задачи-со-звёздочкой" class="slide level1">
+<h1>Задачи со звёздочкой</h1>
+<p><strong>Задача 5.1/6.1</strong>** Реализовать алгоритм двусторонней проверки типов для λ-исчисления с простыми типами (синтаксис входных данных — на ваше усмотрение).</p>
+<ul>
+<li>бонусная * — добавить редукцию</li>
+<li>бонусная * — визуализация редукции</li>
+</ul>
+<p><strong>Задача 5.2/6.2</strong>* Реализовать нумералы Чёрча с операцией сложения.</p>
+<ul>
+<li>бонусная * — умножение</li>
+<li>бонусная * — нетривиальный пример расширенного полинома</li>
+</ul>
+<p><strong>Задача 6.3</strong>*** Реализовать алгоритм проверки типов для одного из расширений λ-исчисления (полиморфное, с конструкторами типов, с зависимыми типами)</p>
+</section>
+    </div>
+  </div>
+
+
+  <script src="reveal.js/lib/js/head.min.js"></script>
+  <script src="reveal.js/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: false,         // Display controls in the bottom right corner
+        progress: true,         // Display a presentation progress bar
+        history: true,          // Push each slide change to the browser history
+        fragments: true,
+        center: true,                       // Vertical centering of slides
+        maxScale: 1.5,                  // Bounds for smallest/largest possible content scale
+        slideNumber: "c / t",                // Display the page number of the current slide
+        theme: 'maxxk', // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+        math: {
+          mathjax: 'reveal.js/../MathJax-2.5.3/MathJax.js',
+          config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
+        },
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'reveal.js/plugin/math/math.js', async: true },
+//          { src: 'reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; }, }
+//          { src: 'reveal.js/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+]});
+    </script>
+    </body>
+</html>

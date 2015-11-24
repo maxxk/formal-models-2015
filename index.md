@@ -15,6 +15,10 @@ layout: default
 
 10.11.2015 λ-исчисление с простыми типами [(презентация - html)](presentations/05-SimplyTypedLambdaCalculus.html)
 
+17.11.2015 Расширения типизированного λ-исчисления [(презентация-html)](presentations/06-SystemF.html)
+
+24.11.2015 Исчисление конструкций [(презентация - html)](presentations/07-CoC.html)
+
 <!--<div class="home">
 
   <h1 class="page-heading">Материалы к занятиям:</h1>
