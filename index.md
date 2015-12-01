@@ -19,6 +19,33 @@ layout: default
 
 24.11.2015 Исчисление конструкций [(презентация - html)](presentations/07-CoC.html)
 
+01.12.2015 Индуктивные и коиндуктивные типа [(презентация - html)](presentations/08-Inductive.html)
+
+# Литература
+#### (предварительный список)
+Основная литература:
+- Б. Пирс. Типы и языки программирования. М.: Лямбда-пресс: Добросвет. 2011.
+- A. Chlipala. Certified Programming With Dependent Types. MIT Press. 2013.
+- Univalent Foundations Program. Homotopy Type Theory. 2012.
+- S. Thompson. Type Theory and Functional Programming. Addison-Wesley, 1991.
+- А.Б. Угольников (ред.). Конспект лекций О.Б.Лупанова по курсу "Введение в математическую логику", 2007.
+- H. Barendregt. Introduction to generalized type systems. J.Funct.Program, (2):125-154, 1991.
+
+Дополнительная литература (библиографический обзор курса, ссылки на оригинальные публикации, содержащие рассматриваемые в курсе результаты):
+- В.А. Васенин, М.А. Кривчиков. Формальные модели программ и языков программирования. Часть 1. Библиографический обзор 1930—1989 гг. Программная инженерия, (5):10–19, 2015.
+- В.А. Васенин, М.А. Кривчиков. Формальные модели программ и языков программирования. Часть 2. Современное состояние исследований. Программная инженерия, (6):24–33, 2015.
+
+Перечень ресурсов информационно-телекоммуникационной сети «Интернет»:
+- Обновляемая страница курса: http://maxxk.github.io/formal-models-2015/
+- М.Р. Пентус. Введение в математическую логику. Конспект лекций на механико-математическом факультете МГУ, весна 2006. http://lpcs.math.msu.su/~pentus/ftp/mehmat/vmlk06le.pdf
+
+Электронные версии книг из списка основной литературы курса:
+- A. Chlipala. Certified Programming With Dependent Types. http://adam.chlipala.net/cpdt/
+- Univalent Foundations Program. Homotopy Type Theory.  http://homotopytypetheory.org/book/
+- S. Thompson. Type Theory and Functional Programming. http://www.cs.kent.ac.uk/people/staff/sjt/TTFP/
+
+Дополнительные ссылки на ресурсы информационно-телекоммуникационной сети Интернет приведены на обновляемой странице курса в материалах лекций.
+
 <!--<div class="home">
 
   <h1 class="page-heading">Материалы к занятиям:</h1>

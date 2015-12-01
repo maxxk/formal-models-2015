@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <title></title>
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <link rel="stylesheet" href="reveal.js/css/reveal.css"/>
+  <style type="text/css">code{white-space: pre;}</style>
+  <link rel="stylesheet" href="reveal.js/css/theme/maxxk.css" id="theme">
+  <link rel="stylesheet" href="additional.css"/>
+  <link rel="stylesheet" href="reveal.js/css/highlight-github.css"/>
+  <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+  <script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+      var link = document.createElement( 'link' );
+      link.rel = 'stylesheet';
+      link.type = 'text/css';
+      link.href = 'reveal.js/css/print/pdf.css';
+      document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+  </script>
+  <!--[if lt IE 9]>
+  <script src="reveal.js/lib/js/html5shiv.js"></script>
+  <![endif]-->
+  <script src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML" type="text/javascript"></script>
+</head>
+<body>
+  <div class="reveal">
+    <div class="slides">
+
+
+<section id="математические-модели-вычислений" class="slide level1">
+<h1>Математические модели вычислений</h1>
+<h3 id="общие-понятия-теории-категорий">Общие понятия теории категорий</h3>
+<h3 id="индуктивные-типы">Индуктивные типы</h3>
+<h3 id="правила-итерации-и-индукции">Правила итерации и индукции</h3>
+<h3 id="коиндуктивные-типы">Коиндуктивные типы</h3>
+<h3 id="альтернатива-тьюринг-полноте-завершимость-и-продуктивность">Альтернатива Тьюринг-полноте — завершимость и продуктивность</h3>
+<p><script type="text/javascript">
+<!--
+h='&#x67;&#x6d;&#x61;&#x69;&#108;&#46;&#x63;&#x6f;&#x6d;';a='&#64;';n='&#x6d;&#x61;&#120;&#x69;&#x6d;&#46;&#x6b;&#114;&#x69;&#118;&#x63;&#104;&#x69;&#x6b;&#x6f;&#118;';e=n+a+h;
+document.write('<a h'+'ref'+'="ma'+'ilto'+':'+e+'" clas'+'s="em' + 'ail">'+e+'<\/'+'a'+'>');
+// -->
+</script><noscript>&#x6d;&#x61;&#120;&#x69;&#x6d;&#46;&#x6b;&#114;&#x69;&#118;&#x63;&#104;&#x69;&#x6b;&#x6f;&#118;&#32;&#x61;&#116;&#32;&#x67;&#x6d;&#x61;&#x69;&#108;&#32;&#100;&#x6f;&#116;&#32;&#x63;&#x6f;&#x6d;</noscript></p>
+<p>Материалы курса: <a href="https://maxxk.github.io/formal-models-2015/" class="uri">https://maxxk.github.io/formal-models-2015/</a></p>
+</section>
+<section id="по-следам-наших-публикаций" class="slide level1">
+<h1>По следам наших публикаций</h1>
+<p>Осталось 3 занятия — 1.12, 8.12, 15.12.</p>
+<p>Предварительный список литературы курса — <a href="https://maxxk.github.io/formal-models-2015/#section-2">на сайте</a></p>
+<p>Как мы говорили ранее, <span class="math inline">\(A × B\)</span> — это частный случай <span class="math inline">\(ΣA.B\)</span>, а $ A → B$ — частный случай <span class="math inline">\(ΠA.B\)</span>, поэтому далее будем использовать и те, и другие обозначения. Для терма приложения, если это уместно, можем использовать <span class="math inline">\(A(x, y, z)\)</span> как <span class="math inline">\(A · x · y · z\)</span>.</p>
+</section>
+<section id="теория-категорий" class="slide level1">
+<h1>Теория категорий</h1>
+<p>— достаточно новая область математики, которая используется для описания абстрактных математических структур (близка к алгебраической топологии).<br />
+«наука о стрелочках»<br />
+<strong>Определение. </strong> Категория <span class="math inline">\(\mathcal{C}\)</span> состоит из следующих частей:</p>
+<ul>
+<li class="fragment">класса (набора) <em>объектов</em> <span class="math inline">\(\mathrm{Ob}(\mathcal{C})\)</span></li>
+<li class="fragment">класса <em>морфизмов</em> (<em>стрелок</em>) между объектами <span class="math inline">\(\mathrm{Hom}_\mathcal{C}(a, b)\)</span> с равенством; пример записи: стрелка <span class="math inline">\(f : a → b\)</span> из <span class="math inline">\(a\)</span> в <span class="math inline">\(b\)</span></li>
+<li class="fragment">оператора <em>композиции</em> (∘): для любых <span class="math inline">\(f : a → b\)</span>, <span class="math inline">\(g : b → c\)</span>, существует стрелка <span class="math inline">\(g ∘ f : a → c\)</span>.<br />
+При этом оператор композиции должен обладать свойствами:</li>
+<li class="fragment"><em>ассоциативность</em>: <span class="math inline">\(h ∘ (g ∘ f) = (h ∘ g) ∘ f\)</span></li>
+<li class="fragment"><em>существование единицы</em>: для любого объекта <span class="math inline">\(x\)</span> существует единичный морфизм <span class="math inline">\(1_x : x → x\)</span>, нейтральный для композиции <span class="math inline">\(1_x ∘ f = f\)</span>, <span class="math inline">\(g ∘ 1_x = g\)</span>.</li>
+</ul>
+<p>С. Маклейн. Категории для работающего математика. М.:Физматлит, 2004.</p>
+</section>
+<section id="теория-категорий-1" class="slide level1">
+<h1>Теория категорий</h1>
+<h2 id="примеры">Примеры</h2>
+<p>Самый простой пример — категория множеств <span class="math inline">\(\mathrm{Set}\)</span>, объекты которой — множества, а морфизмы — функции между множествами.<br />
+Пример посложнее — направленный граф (объекты — вершины, стрелки — рёбра и единичные стрелки-циклы у вершин).</p>
+<div class="fragment">
+<p>Определения (и доказательства) в теории категорий часто используют коммутативные диаграммы — направленные графы с вершинами-объектами и рёбрами-морфизмами:</p>
+<p><span class="math display">\[
+\require{AMScd}
+\begin{CD}
+F(X) @&gt;F(i)&gt;&gt; F(F(X)) \\
+@VαVV   @VVF(α)V \\
+X @&gt;&gt;i&gt; F(X)
+\end{CD}
+\]</span></p>
+«Диаграмма коммутирует» означает, что при любом выбранном начальном и конечном объекте, для всех путей композиции составляющих их морфизмов равны.
+</div>
+</section>
+<section id="теория-категорий-2" class="slide level1">
+<h1>Теория категорий</h1>
+<dl>
+<dt class="fragment">инициальный объект</dt>
+<dd class="fragment">такой объект <span class="math inline">\(I\)</span>, из которого выходят морфизмы в любой объект категории (единственные для каждого объекта — ∀X ∃! f : I → X)
+</dd>
+<dt class="fragment">терминальный (финальный) объект</dt>
+<dd class="fragment">такой объект <span class="math inline">\(F\)</span>, в который входят морфизмы из любого объекта категории (единственные для каждого объекта — ∀X ∃! g : X → F)
+</dd>
+</dl>
+<div class="left-column fragment">
+<p><img src="graphviz-images/89b519934a33feeeac557cd3acfbcc301dadd03c.svg" alt="caption" /></p>
+</div>
+<div class="left-column fragment">
+<p><img src="graphviz-images/7529be51b15eff8a94266b087765604d283ab642.svg" alt="caption" /></p>
+</div>
+</section>
+<section id="теория-категорий-3" class="slide level1">
+<h1>Теория категорий</h1>
+<dl>
+<dt class="fragment">функтор</dt>
+<dd class="fragment"><p>отображение между категориями <span class="math inline">\(\mathcal{C}\)</span> и <span class="math inline">\(\mathcal{D}\)</span>, такое, что:</p>
+<ul>
+<li>каждому объекту <span class="math inline">\(X ∈ \mathrm{Ob}(\mathcal{C})\)</span> сопоставляется <span class="math inline">\(F(X) ∈ \mathrm{Ob}(\mathcal{D})\)</span></li>
+<li>каждому морфизму <span class="math inline">\(f : X → Y ∈ \mathrm{Hom}(\mathcal{C})\)</span> сопоставляется <span class="math inline">\(F(f) : F(X) → F(Y)\)</span></li>
+<li>сохраняется идентичность и композиция морфизмов</li>
+</ul>
+</dd>
+<dt class="fragment">эндофунктор</dt>
+<dd class="fragment">функтор из категории <span class="math inline">\(\mathcal{C}\)</span> в себя (<span class="math inline">\(F : \mathcal{C} → \mathcal{C}\)</span>)
+</dd>
+<dt class="fragment"><span class="math inline">\(F\)</span>-алгебра</dt>
+<dd class="fragment">для эндофунктора <span class="math inline">\(F\)</span> — пара <span class="math inline">\((A, α)\)</span>, где <span class="math inline">\(A\)</span> — объект, <span class="math inline">\(α : F(A) → A\)</span>
+</dd>
+</dl>
+<div class="fragment">
+<p><span class="math inline">\(F\)</span>-алгебры образуют категорию с морфизмами <span class="math inline">\(f\)</span> для <span class="math inline">\(F\)</span>-алгебр <span class="math inline">\((A, α)\)</span> и <span class="math inline">\((B, β)\)</span> (гомоморфизмами):<br />
+<span class="math display">\[
+\require{AMScd}
+\begin{CD}
+F(A)  @&gt;α&gt;&gt; A \\
+@VF(f)VV    @VVfV \\
+F(B) @&gt;β&gt;&gt; B
+\end{CD}
+\]</span></p>
+</div>
+</section>
+<section id="индуктивный-тип" class="slide level1">
+<h1>Индуктивный тип</h1>
+<p>Мотивация: хочется работать с объектами произвольного размера и задавать функции на них индуктивно по их структуре.</p>
+<h2 id="примеры-1">Примеры</h2>
+<dl>
+<dt class="fragment">Натуральные числа</dt>
+<dd class="fragment">тип <span class="math inline">\(ℕ\)</span>, с двумя конструкторами <span class="math inline">\(\mathbb{0}\)</span> и <span class="math inline">\(\mathbb{S}(k : ℕ)\)</span> (следующее за данным; <span class="math inline">\(\mathbb{S}(k) ≡ k+1\)</span>)
+</dd>
+<dd class="fragment">простое удаление (итерация): <span class="math display">\[\mathrm{iter}_ℕ(T : 𝐓𝐲𝐩𝐞, c_\mathbb{0} : T, c_\mathbb{S} : T → T, n : ℕ) : T\]</span>
+</dd>
+<dd class="fragment">зависимое удаление (индукция): <span class="math display">\[\mathrm{ind}_ℕ(T : ℕ → 𝐓𝐲𝐩𝐞, c_\mathbb{0} : T(\mathbb{0}), c_\mathbb{S} : Π(n : ℕ).T(n) → T(\mathbb{S}(n)), n : ℕ) : T(n)\]</span>
+</dd>
+<dd class="fragment"><p>редукция:</p>
+<ul>
+<li class="fragment"><span class="math inline">\(\mathrm{ind}_ℕ(…, \mathbb{0}) ⟶ c_\mathbb{0}\)</span></li>
+<li class="fragment"><span class="math inline">\(\mathrm{ind}_ℕ(…, k+1) ⟶ c_\mathbb{S}(k, \mathrm{ind}_ℕ(..., k))\)</span></li>
+</ul>
+</dd>
+</dl>
+</section>
+<section id="индуктивный-тип-1" class="slide level1">
+<h1>Индуктивный тип</h1>
+<h2 id="контрпример">Контрпример</h2>
+<dl>
+<dt class="fragment">Не-индуктивный тип на основе натуральных чисел</dt>
+<dd class="fragment">тип булевых (#2) векторов заданного размера <span class="math inline">\(BVector : ℕ → 𝐓𝐲𝐩𝐞\)</span>
+</dd>
+<dd class="fragment">определяется через итерацию:<br />
+<span class="math display">\[
+\begin{array}{l}
+BVector (elements : ℕ) ≡ \\
+\qquad \mathrm{ind}_ℕ(𝐓𝐲𝐩𝐞, c_\mathbb{0} ≡ \#1, c_\mathbb{S} ≡ λ(n : ℕ).(v : BVector(n). \#2 × BVector(n)), elements)
+\end{array}
+\]</span>
+</dd>
+</dl>
+<div class="fragment">
+<p>прототип функции, которая требует непустой вектор:<br />
+(существует <span class="math inline">\(n : ℕ\)</span>, для которого длина вектора — <span class="math inline">\(ℕ+1\)</span>)</p>
+<p>negateVector : Π(n : ℕ).BVector(n+1) → BVector(n+1)</p>
+</div>
+<div class="fragment">
+<p>прототип функции, которая требует два вектора одинакового размера:</p>
+andVector : Π(n : ℕ).BVector(n) → BVector(n) → BVector(n)
+</div>
+</section>
+<section id="индуктивный-тип-2" class="slide level1">
+<h1>Индуктивный тип</h1>
+<h2 id="примеры-2">Примеры</h2>
+<dl>
+<dt class="fragment">Список из элементов типа <span class="math inline">\(A\)</span></dt>
+<dd class="fragment">тип <span class="math inline">\(\mathrm{List}(A)\)</span> с двумя конструкторами <span class="math inline">\(\mathrm{nil}_A\)</span> (пустой список, <span class="math inline">\([]\)</span>) и <span class="math inline">\(\mathrm{cons}_A(h : A, t : \mathrm{List}(A))\)</span> (<span class="math inline">\([h, t]\)</span>)
+</dd>
+<dd class="fragment">простое удаление (reduce, fold): <span class="math display">\[ \mathrm{iter}_\mathrm{List}(T : 𝐓𝐲𝐩𝐞, c_\mathrm{nil} : T, c_\mathrm{cons} : T → A → T, l : \mathrm{List}(A)) : T \]</span>
+</dd>
+<dt class="fragment">Формула алгебры логики</dt>
+<dd class="fragment"><p>тип <span class="math inline">\(\mathrm{Formula}\)</span> с конструкторами:</p>
+<ul>
+<li class="fragment">var(x : Nat), const(x : #2)</li>
+<li class="fragment">not(x : Formula)</li>
+<li class="fragment">or(x, y : Formula), and(x, y : Formula)</li>
+</ul>
+</dd>
+<dt class="fragment">Противоречивый индуктивный тип</dt>
+<dd class="fragment">тип Bad с двумя конструкторами nothing : #1 и fn : Bad → #1
+</dd>
+<dd class="fragment">противоречивый терм:<br />
+<span class="math display">\[ ω = \mathrm{iter}_{Bad}(\#1, c_\mathrm{nothing} = 0\#1, c_\mathrm{fn} = λ(t : Bad → \#1). t · \mathrm{fn}(t), \mathrm{fn}(λ(t: Bad). 0\#1) ) \]</span>
+</dd>
+</dl>
+</section>
+<section id="индуктивный-тип-3" class="slide level1">
+<h1>Индуктивный тип</h1>
+<h2 id="первое-определение">Первое определение</h2>
+<p>Рассмотрим категорию типов Исчисления Конструкций <span class="math inline">\(\mathbf{Type}\)</span> с морфизмами — функциями между ними.</p>
+<p>Индуктивным типом на основе эндофунктора <span class="math inline">\(F : 𝐓𝐲𝐩𝐞 → 𝐓𝐲𝐩𝐞\)</span> назовём <em>инициальный объект F-алгебры</em> <span class="math inline">\(μF : 𝐓𝐲𝐩𝐞\)</span>.</p>
+<div class="fragment">
+<p>Для рассмотренных примеров эндофункторы:</p>
+<ul>
+<li class="fragment"><span class="math inline">\(F_ℕ ≡ λ(N : 𝐓𝐲𝐩𝐞). 1 + N\)</span></li>
+<li class="fragment"><span class="math inline">\(F_\mathrm{List} ≡ λ(A : 𝐓𝐲𝐩𝐞). λ(L : 𝐓𝐲𝐩𝐞). 1 + A × L\)</span></li>
+<li class="fragment"><span class="math inline">\(F_\mathrm{Formula} ≡ λ(F : 𝐓𝐲𝐩𝐞). ℕ + \#2 + (F × F) + (F × F) + F\)</span></li>
+<li class="fragment">$F_{Bad} ≡ λ(B : 𝐓𝐲𝐩𝐞) . 1 + (B → 1)</li>
+</ul>
+</div>
+</section>
+<section id="индуктивный-тип-4" class="slide level1">
+<h1>Индуктивный тип</h1>
+<h2 id="теоретико-категориальная-семантика">Теоретико-категориальная семантика</h2>
+<p>Алгебра — это пара из объекта и морфизма.<br />
+Объект μF — это индуктивный тип.<br />
+Морфизм α — это набор термов введения объекта.</p>
+<div class="fragment">
+Инициальность — наличие гомоморфизмов к любым типам — определяет терм простого удаления. Пример на натуральных числах:<br />
+<span class="math display">\[
+\require{AMScd}
+\begin{CD}
+1+ℕ  @&gt;α&gt;&gt; ℕ \\
+@VF(f)VV    @VVfV \\
+1+T @&gt;β&gt;&gt; T
+\end{CD}
+\]</span>
+</div>
+<div class="fragment">
+∀ T, (1 + T) → T ⇒ ℕ → T
+</div>
+</section>
+<section id="индуктивный-тип-5" class="slide level1">
+<h1>Индуктивный тип</h1>
+<p>«Идеальный» терм удаления выглядит следующим образом (но не исключает противоречивые термы как в примере ранее — фактически, это чуть изменённый Y-комбинатор):</p>
+<p>Π(T : 𝐓𝐲𝐩𝐞).(step : μF → T).F(μf) → T</p>
+<p>step — рекурсивный вызов</p>
+<p>Термы зависимого удаления (индукции) также имеют теоретико-категориальную семантику:</p>
+<ol type="1">
+<li>Fumex C., Ghani N., Johann P. Indexed induction and coinduction, fibrationally // Algebra and Coalgebra in Computer Science. Springer, 2011. P. 176–191.</li>
+<li>Ghani N. et al. Fibred Data Types // Proceedings of the 2013 28th Annual ACM/IEEE Symposium on Logic in Computer Science. IEEE Computer Society, 2013. P. 243–252.</li>
+<li>Препринты: <a href="http://arxiv.org/find/cs/1/au:+Ghani_N/0/1/0/all/0/1" class="uri">http://arxiv.org/find/cs/1/au:+Ghani_N/0/1/0/all/0/1</a></li>
+</ol>
+</section>
+<section id="индуктивный-тип-6" class="slide level1">
+<h1>Индуктивный тип</h1>
+<h2 id="второе-определение">Второе определение</h2>
+<p>Введём понятие «строго положительного» вхождения переменной <span class="math inline">\(X\)</span> в терм <span class="math inline">\(τ\)</span>.</p>
+<ul>
+<li class="fragment">любое вхождение в терм без зависимых произведений (τ=X × X, τ = ΣX.#2) строго положительное, если есть зависимые произведения — смотрим на структуру.</li>
+<li class="fragment">для <span class="math inline">\(ΠA.B\)</span>, если <span class="math inline">\(X\)</span> не встречается в <span class="math inline">\(A\)</span>, вхождения строго положительные</li>
+<li class="fragment"><span class="math inline">\(ΠX.B\)</span> — отрицательное вхождение <span class="math inline">\(X\)</span>.</li>
+<li class="fragment"><span class="math inline">\(ΠA.B\)</span> — если <span class="math inline">\(X\)</span> встречается в <span class="math inline">\(A\)</span> в отрицательных позициях, то его вхождение в τ положительно, но не строго положительно.</li>
+</ul>
+<div class="fragment">
+<p>Т.е. <span class="math inline">\(X\)</span> не должен стоять «слева» от стрелки вообще (строго положительное) или в самой левой части стрелки (положительное)</p>
+Примеры строго положительных вхождений: X × X, ℕ → X, X × (ℕ → X)<br />
+Пример нестрого положительного вхождения: (X → ℕ) → ℕ<br />
+Примеры отрицательных вхождений: X → ℕ, (X × ℕ) → X, F(X) → X, (ℕ → X) → X (?)
+</div>
+</section>
+<section id="индуктивный-тип-7" class="slide level1">
+<h1>Индуктивный тип</h1>
+<h2 id="второе-определение-1">Второе определение</h2>
+<p>μF — набор <em>конструкторов</em> — типов, в которых переменная итерации <span class="math inline">\(X\)</span> может встречаться только в строго положительных позициях.</p>
+<p>Строгая положительность позволяет определить терм удаления в «идеальном» виде и не получить при этом возможность парадоксов.</p>
+<p>Можно описать в той же теоретико-категориальной семантике, но нужно использовать нетривиальное понятие <em>полиномиальных функторов</em> (требует определения равенства).</p>
+<ol type="1">
+<li class="fragment">Paulin-Mohring C. Inductive Definitions in the System Coq - Rules and Properties // TLCA ’93 Proceedings of the International Conference on Typed Lambda Calculi and Applications. Springer-Verlag London, UK, 1993. P. 328–345.</li>
+</ol>
+</section>
+<section id="индуктивный-тип-8" class="slide level1">
+<h1>Индуктивный тип</h1>
+<h2 id="определение-по-неподвижным-точкам">Определение по неподвижным точкам</h2>
+<p>Индуктивный тип — наименьшая неподвижная точка <span class="math inline">\(F^i(⟂)\)</span>.</p>
+<p>$⊘ → F(⊘) → F(F(⊘)) → … → F^∞(⊘) $</p>
+<h2 id="определение-в-стиле-мендлера">Определение в стиле Мендлера</h2>
+<p>В явном виде подходит только для System F_ω (т.к. требует Type : Type).</p>
+<p>μF ≡ Π(G : 𝐓𝐲𝐩𝐞).Π(X : 𝐓𝐲𝐩𝐞).Π(step : X → G).F·X → G</p>
+<p>Сигнатура типа задаёт итерацию на нём. Без Type : Type можно ввести μF как терм для произвольного F : 𝐓𝐲𝐩𝐞 → 𝐓𝐲𝐩𝐞, но разрешить удалять только с помощью терма Мендлера.</p>
+<div style="font-size: 0.6em;">
+<ol type="1">
+<li>Constable R.L., Mendler N.P. Recursive Definitions in Type Theory // Logics of Programs, Conference, Brooklyn College, June 17--19, 1985, Proceedings / ed. Parikh R. 1985. Vol. 193. P. 61–78.</li>
+<li>Abel A., Matthes R., Uustalu T. Iteration and coiteration schemes for higher-order and nested datatypes // Theoretical Computer Science. 2005. Vol. 333, № 1-2. P. 3–66.</li>
+<li>Ahn K.Y., Sheard T. A hierarchy of mendler style recursion combinators // ACM SIGPLAN Notices. 2011. Vol. 46, № 9. P. 234–246.</li>
+</ol>
+</div>
+</section>
+<section id="определение-с-аннотацией-размера" class="slide level1">
+<h1>Определение с аннотацией размера</h1>
+<ul>
+<li class="fragment">вводим ординалы ord</li>
+<li class="fragment">рассматриваем индуктивный тип в определении наименьшей неподвижной точки; терм введения увеличивает размер ($\mathbb{S} : ℕ^{(k)} → ℕ^{(k+1)} $)</li>
+<li class="fragment"><div style="font-size: 0.6em;">
+1.Abel A. Towards Generic Programming with Sized Types // Mathematics of Program Construction / ed. Uustalu T. Springer Berlin Heidelberg, 2006. P. 10–28.<br />
+2.Abel A. Implementing a normalizer using sized heterogeneous types. // J. Funct. Program. 2009. № 510996. P. 1–24.
+</div></li>
+</ul>
+</section>
+<section id="простые-расширения" class="slide level1">
+<h1>Простые расширения</h1>
+<h2 id="взаимно-индуктивные-типы">Взаимно индуктивные типы</h2>
+<p>Несколько типов <span class="math inline">\(A_1, …, A_k\)</span>, определения которых могут ссылаться друг на друга.<br />
+Пример (CPDT) — типы списков с контролируемой чётностью длины:<br />
+μ(EvenList = #1 + (ℕ × OddList)<br />
+ OddList = N × EvenList)</p>
+<div class="fragment">
+<h2 id="индексированные-индуктивные-типы">Индексированные индуктивные типы</h2>
+(индуктивные предикаты — ΠA.𝐓𝐲𝐩𝐞 для некоторого A)<br />
+Чётность (T : Πℕ.𝐓𝐲𝐩𝐞) — в форме набора конструкторов:<br />
+<span class="math display">\[
+\begin{array}{l}
+μ_{Πℕ.𝐓𝐲𝐩𝐞} Even = \\
+\qquad even_zero : Even(\mathbb{0}) \\
+\qquad even_plus_2 : Π(k : ℕ).Even(k) → Even (\mathbb{S}(\mathbb{S}(\mathbb{k})))
+\end{array}
+\]</span>
+</div>
+</section>
+<section id="коиндуктивные-типы-1" class="slide level1">
+<h1>Коиндуктивные типы</h1>
+<p>Коиндуктивный тип — наибольшая неподвижная точка <span class="math inline">\(F^i(\#1)\)</span>, <span class="math inline">\(νF\)</span>.</p>
+<h2 id="пример">Пример</h2>
+<p>поток (потенциально бесконечная последовательность)<br />
+<span class="math inline">\(\#1, ℕ × \#1, ℕ × ℕ × \#1, …, ℕ × ℕ × … × ℕ × …\)</span></p>
+<p>операции:</p>
+<ul>
+<li class="fragment">удаление — взять элемент с начала потока <span class="math inline">\(νF → F(νF)\)</span></li>
+<li class="fragment">введение — сгенерировать поток по некоторым начальным данным</li>
+</ul>
+</section>
+<section id="коиндуктивные-типы-2" class="slide level1">
+<h1>Коиндуктивные типы</h1>
+<p>Теоретико-категориальная семантика — дуальна индуктивным типам. Дуализм в теории категорий — все морфизмы разворачиваются. Вместо инициального объекта в категории <span class="math inline">\(F\)</span>-алгебр — терминальный объект в категории <span class="math inline">\(F\)</span>-коалгебр.</p>
+<p>В стиле Мендлера:<br />
+generate : Π(G : 𝐓𝐲𝐩𝐞).Π(X : 𝐓𝐲𝐩𝐞).Π(step : G → X).G → F(X)</p>
+<p>На уровне программ:</p>
+<ul>
+<li class="fragment">индуктивные типы — обеспечивают завершимость (termination) структурно-рекурсивных функций</li>
+<li class="fragment">коиндуктивные типы — обеспечивают продуктивность (productivity) структурно-рекурсивных генераторов (следующий уровень детализации объекта может быть получен за конечное число шагов)</li>
+</ul>
+</section>
+<section id="нетривиальные-расширения" class="slide level1">
+<h1>Нетривиальные расширения</h1>
+<h2 id="индуктивно-рекурсивные-и-индуктивно-индуктивные-типы">Индуктивно-рекурсивные и индуктивно-индуктивные типы</h2>
+<p>Одновременно определяется индуктивный тип <span class="math inline">\(U : 𝐓𝐲𝐩𝐞\)</span> и рекурсивная функция <span class="math inline">\(T : U → 𝐓𝐲𝐩𝐞\)</span>.</p>
+<ol type="1">
+<li class="fragment">Forsberg F.N., Setzer A. A finite axiomatisation of inductive-inductive definitions. 2012.</li>
+<li class="fragment">Ghani N. et al. Fibred Data Types // Proceedings of the 2013 28th Annual ACM/IEEE Symposium on Logic in Computer Science. IEEE Computer Society, 2013. P. 243–252.</li>
+</ol>
+<h2 id="индуктивные-типы-над-произвольным-видом">Индуктивные типы над произвольным видом</h2>
+<p>Можно ли (и с какими ограничениями) определить индуктивные/коиндуктивные типы <span class="math inline">\(μF\)</span>, где <span class="math inline">\(F : A → A\)</span> над произвольным типом <span class="math inline">\(A\)</span>? Ограниченным типом <span class="math inline">\(A\)</span>?</p>
+</section>
+<section id="тип-идентичности-равенства" class="slide level1">
+<h1>Тип идентичности (равенства)</h1>
+<p>Для произвольного типа <span class="math inline">\(A\)</span> — индексированный индуктивный тип <span class="math inline">\(Id : ΠA.A.𝐓𝐲𝐩𝐞\)</span> (Id(a, b) ≡ a = b).<br />
+Реализует равенство Лейбница.<br />
+Единственный конструктор — рефлексивность: <span class="math inline">\(\mathrm{refl}_A : Π(a : A).Id(a, a)\)</span>.<br />
+Терм зависимого удаления — конвертация по равенству:<br />
+$ J(a, b : A, ε : a =_A b, C : Π(x, y : A).(δ : x =_A y).𝐓𝐲𝐩𝐞, x : C(a, a, \mathrm{refl}_A(a))) : C(a, b, ε) $</p>
+</section>
+<section id="задачи-со-звёздочкой" class="slide level1">
+<h1>Задачи со звёздочкой</h1>
+<p><strong>Задача 8.1</strong>* Записать термы зависимого удаления и правила редукции для списка, формул алгебры логики и противоречивого типа.</p>
+<p><strong>Задача 8.2</strong>** С помощью термов зависимого удаления реализовать (в исчислении конструкций) интерпретатор формул, который позволяет получить из окружения переменных Env : ℕ → #2 и формулы Formula результат вычисления формулы с такими переменными</p>
+<ul>
+<li class="fragment">дополнительная * — Coq</li>
+</ul>
+<p><strong>Задача 8.3</strong>** Используя дуальность индуктивных и коиндуктивных типов, записать правило удаления коиндуктивного типа, задаваемого функтором <span class="math inline">\(F\)</span> в стиле Мендлера.</p>
+</section>
+    </div>
+  </div>
+
+
+  <script src="reveal.js/lib/js/head.min.js"></script>
+  <script src="reveal.js/js/reveal.js"></script>
+
+  <script>
+
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: false,         // Display controls in the bottom right corner
+        progress: true,         // Display a presentation progress bar
+        history: true,          // Push each slide change to the browser history
+        fragments: true,
+        center: true,                       // Vertical centering of slides
+        maxScale: 1.5,                  // Bounds for smallest/largest possible content scale
+        slideNumber: "c / t",                // Display the page number of the current slide
+        theme: 'maxxk', // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+        math: {
+          //mathjax: 'reveal.js/../MathJax-2.5.3/MathJax.js',
+          config: 'TeX-AMS_HTML-full'  // See http://docs.mathjax.org/en/latest/config-files.html
+        },
+
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+          { src: 'reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+          { src: 'reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } },
+          { src: 'reveal.js/plugin/math/math.js', async: true },
+//          { src: 'reveal.js/plugin/search/search.js', async: true, condition: function() { return !!document.body.classList; }, }
+//          { src: 'reveal.js/plugin/remotes/remotes.js', async: true, condition: function() { return !!document.body.classList; } }
+]});
+    </script>
+    </body>
+</html>
