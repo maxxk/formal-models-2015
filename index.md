@@ -13,15 +13,15 @@ layout: default
 
 3.11.2015 Model checking [(презентация — pdf)](pdf/04-Model-Checking.pdf)
 
-10.11.2015 λ-исчисление с простыми типами [(презентация - html)](presentations/05-SimplyTypedLambdaCalculus.html)
+10.11.2015 λ-исчисление с простыми типами [(презентация — html)](presentations/05-SimplyTypedLambdaCalculus.html) [(презентация — pdf)](pdf/05-SimplyTypedLambdaCalculus.pdf)
 
-17.11.2015 Расширения типизированного λ-исчисления [(презентация-html)](presentations/06-SystemF.html)
+17.11.2015 Расширения типизированного λ-исчисления [(презентация — html)](presentations/06-SystemF.html) [(презентация — pdf)](pdf/06-SystemF.pdf)
 
-24.11.2015 Исчисление конструкций [(презентация - html)](presentations/07-CoC.html)
+24.11.2015 Исчисление конструкций [(презентация — html)](presentations/07-CoC.html) [(презентация — pdf)](pdf/07-CoC.pdf)
 
-01.12.2015 Индуктивные и коиндуктивные типа [(презентация - html)](presentations/08-Inductive.html)
+01.12.2015 Индуктивные и коиндуктивные типы [(презентация — html)](presentations/08-Inductive.html) [(презентация — pdf)](pdf/08-Inductive.pdf)
 
-08.12.2015 Гомотопическая теория типов [(презентация - html)](presentations/09-HomotopyTypeTheory.html)
+08.12.2015 Гомотопическая теория типов [(презентация — html)](presentations/09-HomotopyTypeTheory.html) [(презентация — pdf)](presentations/09-HomotopyTypeTheory.pdf)
 
 # Литература
 (предварительный список)
