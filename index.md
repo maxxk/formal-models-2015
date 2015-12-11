@@ -21,7 +21,7 @@ layout: default
 
 01.12.2015 Индуктивные и коиндуктивные типы [(презентация — html)](presentations/08-Inductive.html) [(презентация — pdf)](pdf/08-Inductive.pdf)
 
-08.12.2015 Гомотопическая теория типов [(презентация — html)](presentations/09-HomotopyTypeTheory.html) [(презентация — pdf)](presentations/09-HomotopyTypeTheory.pdf)
+08.12.2015 Гомотопическая теория типов [(презентация — html)](presentations/09-HomotopyTypeTheory.html) [(презентация — pdf)](pdf/09-HomotopyTypeTheory.pdf)
 
 # Литература
 (предварительный список)
