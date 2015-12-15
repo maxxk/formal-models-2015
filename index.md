@@ -3,7 +3,10 @@ layout: default
 ---
 {% include about.md %}
 
+
 # Материалы к занятиям
+
+[Список вопросов к зачёту-2015](questions.md)
 
 6.10.2015 Вводное занятие [(презентация — pdf)](pdf/01-Introduction.pdf)
 
